@@ -39,9 +39,9 @@ function westminster_schedule_menu() {
 
 function _westminster_events_json(){
   $events = _westminster_schedule_getEvents();
-  $output = [];
+  $output = array();
   foreach($events as $row){
-    $e = [];
+    $e = array();
     $e['id'] = $row->nid;
     $e['title'] = $row->node_title;
 
