@@ -1,0 +1,85 @@
+name = westminster
+description = westminster install profile.
+core = 7.x
+exclusive = 1
+
+; Core
+dependencies[] = block
+dependencies[] = color
+dependencies[] = dblog
+dependencies[] = field
+dependencies[] = field_sql_storage
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = filter
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = node
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = system
+dependencies[] = taxonomy
+dependencies[] = text
+dependencies[] = update
+dependencies[] = user
+
+; Contribs
+; dependencies[] = admin_menu
+dependencies[] = admin_views
+dependencies[] = block_class
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = date_popup
+dependencies[] = date_repeat
+dependencies[] = date_repeat_field
+dependencies[] = date_views
+; dependencies[] = execute_events
+dependencies[] = color_field
+dependencies[] = conditional_fields
+dependencies[] = entityreference
+dependencies[] = features
+dependencies[] = field_collection
+dependencies[] = field_permissions
+dependencies[] = field_validation
+dependencies[] = field_validation_ui
+dependencies[] = filefield_paths
+dependencies[] = file_entity
+dependencies[] = fullcalendar
+dependencies[] = geolocation
+dependencies[] = geolocation_googlemaps
+dependencies[] = auto_nodetitle
+dependencies[] = entity
+dependencies[] = entity_token
+dependencies[] = jquery_update
+dependencies[] = libraries
+dependencies[] = menu_per_role
+dependencies[] = module_filter
+dependencies[] = oauth_common
+dependencies[] = pathauto
+dependencies[] = token
+dependencies[] = transliteration
+dependencies[] = ultimate_cron
+;dependencies[] = pantheon_apachesolr
+dependencies[] = pantheon_api
+dependencies[] = pathauto
+dependencies[] = rules
+dependencies[] = rules_admin
+dependencies[] = services
+dependencies[] = rest_server
+dependencies[] = jquery_update
+dependencies[] = views
+dependencies[] = views_bulk_operations
+dependencies[] = views_json
+dependencies[] = views_ui
+
+dependencies[] = amazons3
+dependencies[] = awssdk
+dependencies[] = cors
+dependencies[] = image_url_formatter
+
+
+; Customs
+dependencies[] = westminster_schedule
