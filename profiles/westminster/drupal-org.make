@@ -40,7 +40,7 @@ projects[views_datasource][subdir] = "contrib"
 projects[views_php][subdir] = "contrib"
 
 projects[amazons3][subdir] = "contrib"
-projects[amazons3][version] = "7.x-1.1"
+projects[amazons3][version] = "1.1"
 projects[awssdk][subdir] = "contrib"
 projects[cors][subdir] = "contrib"
 projects[image_url_formatter][subdir] = "contrib"
