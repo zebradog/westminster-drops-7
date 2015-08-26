@@ -96,3 +96,8 @@ features[user_permission][] = administer own schedule
 features[user_permission][] = see schedule
 features[user_role][] = content editor
 features[views_view][] = events
+
+; Information added by drush on 2015-08-26
+version = "7.x-1.x-dev"
+project = "westminster"
+datestamp = "1440622378"

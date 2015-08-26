@@ -83,3 +83,8 @@ dependencies[] = image_url_formatter
 
 ; Customs
 dependencies[] = westminster_schedule
+
+; Information added by drush on 2015-08-26
+version = "7.x-1.x-dev"
+project = "westminster"
+datestamp = "1440622378"
