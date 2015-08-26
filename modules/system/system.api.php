@@ -3069,6 +3069,22 @@ function hook_file_url_alter(&$uri) {
 }
 
 /**
+ * Alter a normalized URI for a given stream wrapper.
+ *
+ * @see file_stream_wrapper_uri_normalize()
+ *
+ * @param string &$uri
+ *   The URI to alter.
+ * @param string $scheme
+ *   The scheme of the URI, such as 'public' or 'http'.
+ * @param string $target
+ *   The path component of the URI.
+ */
+function hook_file_stream_wrapper_uri_normalize_alter(&$uri, $scheme, $target) {
+
+}
+
+/**
  * Check installation requirements and do status reporting.
  *
  * This hook has three closely related uses, determined by the $phase argument:

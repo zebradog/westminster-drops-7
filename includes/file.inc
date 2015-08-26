@@ -275,6 +275,7 @@ function file_default_scheme() {
 function file_stream_wrapper_uri_normalize($uri) {
   $scheme = file_uri_scheme($uri);
 
+  $target = NULL;
   if ($scheme && file_stream_wrapper_valid_scheme($scheme)) {
     $target = file_uri_target($uri);
 
@@ -282,6 +283,7 @@ function file_stream_wrapper_uri_normalize($uri) {
       $uri = $scheme . '://' . $target;
     }
   }
+  drupal_alter('file_stream_wrapper_uri_normalize', $uri, $scheme, $target);
   return $uri;
 }
 
