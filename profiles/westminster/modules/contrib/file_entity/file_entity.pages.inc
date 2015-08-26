@@ -493,7 +493,7 @@ function file_entity_upload_destination_uri(array $params, array $data = array()
   // Replace tokens.
   $destination = token_replace($destination, $data);
 
-  return $params['uri_scheme'] . '://' . $destination;
+  return file_stream_wrapper_uri_normalize($params['uri_scheme'] . '://' . $destination);
 }
 
 /**
