@@ -26,7 +26,6 @@ dependencies[] = update
 dependencies[] = user
 
 ; Contribs
-; dependencies[] = admin_menu
 dependencies[] = admin_views
 dependencies[] = block_class
 dependencies[] = ctools
@@ -36,7 +35,6 @@ dependencies[] = date_popup
 dependencies[] = date_repeat
 dependencies[] = date_repeat_field
 dependencies[] = date_views
-; dependencies[] = execute_events
 dependencies[] = color_field
 dependencies[] = conditional_fields
 dependencies[] = entityreference
@@ -62,7 +60,6 @@ dependencies[] = pathauto
 dependencies[] = token
 dependencies[] = transliteration
 dependencies[] = ultimate_cron
-;dependencies[] = pantheon_apachesolr
 dependencies[] = pantheon_api
 dependencies[] = pathauto
 dependencies[] = rules
@@ -74,7 +71,7 @@ dependencies[] = views
 dependencies[] = views_bulk_operations
 dependencies[] = views_json
 dependencies[] = views_ui
-
+dependencies[] = services_views
 dependencies[] = amazons3
 dependencies[] = awssdk
 dependencies[] = cors
@@ -83,8 +80,3 @@ dependencies[] = image_url_formatter
 
 ; Customs
 dependencies[] = westminster_schedule
-
-; Information added by drush on 2015-08-26
-version = "7.x-1.x-dev"
-project = "westminster"
-datestamp = "1440622378"
