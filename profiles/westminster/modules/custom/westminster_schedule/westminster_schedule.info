@@ -28,6 +28,7 @@ dependencies[] = text
 dependencies[] = views
 dependencies[] = views_json
 dependencies[] = westminster_schedule
+dependencies[] = services_views
 features[ctools][] = field_validation:default_field_validation_rules:2
 features[ctools][] = services:services:3
 features[ctools][] = views:views_default:3.0
@@ -96,8 +97,3 @@ features[user_permission][] = administer own schedule
 features[user_permission][] = see schedule
 features[user_role][] = content editor
 features[views_view][] = events
-
-; Information added by drush on 2015-08-26
-version = "7.x-1.x-dev"
-project = "westminster"
-datestamp = "1440622378"
