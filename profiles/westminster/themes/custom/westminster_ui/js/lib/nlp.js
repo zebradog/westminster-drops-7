@@ -19,10 +19,8 @@
  */
 (function(root) {
 
-
   var serverSide = typeof module !== 'undefined' && module.exports;
   var RRule;
-
 
   if (serverSide) {
     RRule = require('./rrule').RRule;
@@ -36,7 +34,6 @@
     throw new Error('rrule.js is required for rrule/nlp.js to work')
   }
 
-
   //=============================================================================
   // Helper functions
   //=============================================================================
@@ -48,11 +45,9 @@
     return arr.indexOf(val) != -1;
   };
 
-
   //=============================================================================
   // ToText
   //=============================================================================
-
 
   /**
    *
@@ -109,7 +104,6 @@
         )
       };
 
-
       var sortWeekDays = function(a, b) {
         return a.weekday - b.weekday;
       };
@@ -128,7 +122,6 @@
     }
 
   };
-
 
   ToText.IMPLEMENTED = [];
   var common = [
@@ -167,14 +160,11 @@
     return canConvert;
   };
 
-
   ToText.prototype = {
-
 
     isFullyConvertible: function() {
       return ToText.isFullyConvertible(this.rrule);
     },
-
 
     /**
      * Perform the conversion. Only some of the frequencies are supported.
@@ -317,13 +307,11 @@
         this.add(this.plural(this.options.interval) ? gettext('years') : gettext('year'));
       }
 
-
       if (this.bymonthday) {
         this._bymonthday();
       } else if (this.byweekday) {
         this._byweekday();
       }
-
 
       if (this.options.byyearday) {
         this.add(gettext('on the'))
@@ -395,14 +383,17 @@
         case 31:
           nth = npos + gettext('st');
           break;
+
         case 2:
         case 22:
           nth = npos + gettext('nd');
           break;
+
         case 3:
         case 23:
           nth = npos + gettext('rd');
           break;
+
         default:
           nth = npos + gettext('th');
       }
@@ -461,12 +452,9 @@
         return arr.map(realCallback).join(delim + ' ');
       }
 
-
     }
 
-
   };
-
 
   //=============================================================================
   // fromText
@@ -559,13 +547,15 @@
     function S() {
       ttr.expect('every');
 
-      // every [n]
+      // Every [n].
       var n;
-      if (n = ttr.accept('number'))
+      if (n = ttr.accept('number')) {
         options.interval = parseInt(n[0]);
+      }
 
-      if (ttr.isDone())
+      if (ttr.isDone()) {
         throw new Error('Unexpected end');
+      }
 
       switch (ttr.symbol) {
         case 'day(s)':
@@ -625,13 +615,15 @@
           options.freq = RRule.WEEKLY;
           options.byweekday = [RRule[ttr.symbol.substr(0, 2).toUpperCase()]];
 
-          if (!ttr.nextSymbol())
+          if (!ttr.nextSymbol()) {
             return;
+          }
 
           // TODO check for duplicates
           while (ttr.accept('comma')) {
-            if (ttr.isDone())
+            if (ttr.isDone()) {
               throw new Error('Unexpected end');
+            }
 
             var wkd;
             if (!(wkd = decodeWKD())) {
@@ -660,13 +652,15 @@
           options.freq = RRule.YEARLY;
           options.bymonth = [decodeM()];
 
-          if (!ttr.nextSymbol())
+          if (!ttr.nextSymbol()) {
             return;
+          }
 
           // TODO check for duplicates
           while (ttr.accept('comma')) {
-            if (ttr.isDone())
+            if (ttr.isDone()) {
               throw new Error('Unexpected end');
+            }
 
             var m;
             if (!(m = decodeM())) {
@@ -720,13 +714,15 @@
           // <weekday>
         } else if (wkd = decodeWKD()) {
           ttr.nextSymbol();
-          if (!options.byweekday)
+          if (!options.byweekday) {
             options.byweekday = [];
+          }
           options.byweekday.push(RRule[wkd]);
         } else if (ttr.symbol == 'weekday(s)') {
           ttr.nextSymbol();
-          if (!options.byweekday)
+          if (!options.byweekday) {
             options.byweekday = [];
+          }
           options.byweekday.push(RRule.MO);
           options.byweekday.push(RRule.TU);
           options.byweekday.push(RRule.WE);
@@ -748,8 +744,9 @@
 
         } else if (m = decodeM()) {
           ttr.nextSymbol();
-          if (!options.bymonth)
+          if (!options.bymonth) {
             options.bymonth = [];
+          }
           options.bymonth.push(m);
         } else {
           return;
@@ -762,30 +759,43 @@
       switch (ttr.symbol) {
         case 'january':
           return 1;
+
         case 'february':
           return 2;
+
         case 'march':
           return 3;
+
         case 'april':
           return 4;
+
         case 'may':
           return 5;
+
         case 'june':
           return 6;
+
         case 'july':
           return 7;
+
         case 'august':
           return 8;
+
         case 'september':
           return 9;
+
         case 'october':
           return 10;
+
         case 'november':
           return 11;
+
         case 'december':
           return 12;
+
         default:
           return false;
+
       }
     }
 
@@ -799,6 +809,7 @@
         case 'saturday':
         case 'sunday':
           return ttr.symbol.substr(0, 2).toUpperCase();
+
           break;
 
         default:
@@ -812,19 +823,24 @@
         case 'last':
           ttr.nextSymbol();
           return -1;
+
         case 'first':
           ttr.nextSymbol();
           return 1;
+
         case 'second':
           ttr.nextSymbol();
           return ttr.accept('last') ? -2 : 2;
+
         case 'third':
           ttr.nextSymbol();
           return ttr.accept('last') ? -3 : 3;
+
         case 'nth':
           var v = parseInt(ttr.value[1]);
-          if (v < -366 || v > 366)
+          if (v < -366 || v > 366) {
             throw new Error('Nth out of range: ' + v);
+          }
 
           ttr.nextSymbol();
           return ttr.accept('last') ? -v : v;
@@ -877,7 +893,6 @@
       }
     }
   };
-
 
   //=============================================================================
   // Parser
@@ -966,7 +981,6 @@
     throw new Error('expected ' + name + ' but found ' + this.symbol);
   };
 
-
   //=============================================================================
   // i18n
   //=============================================================================
@@ -1023,7 +1037,6 @@
       'comma': /^(,\s*|(and|or)\s*)+/i
     }
   };
-
 
   //=============================================================================
   // Export

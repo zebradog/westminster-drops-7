@@ -692,8 +692,9 @@
 
       // Populate the calendar with date objects.
       var startDay = daysInLastMonth - dayOfWeek + this.locale.firstDay + 1;
-      if (startDay > daysInLastMonth)
+      if (startDay > daysInLastMonth) {
         startDay -= 7;
+      }
 
       if (dayOfWeek == this.locale.firstDay) {
         startDay = daysInLastMonth - 6;

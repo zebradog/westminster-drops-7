@@ -4,7 +4,6 @@
  * Licensed under MIT (https://github.com/weareoutman/clockpicker/blob/gh-pages/LICENSE)
  */
 
-;
 (function() {
   var $ = window.jQuery,
     $win = $(window),
@@ -143,7 +142,6 @@
           }
         }).appendTo(this.amPmBlock);
 
-
       $('<div class="btn btn-sm btn-default clockpicker-button pm-button">' + "PM" + '</div>')
         .on("click", function() {
           self.amOrPm = 'PM';
@@ -159,15 +157,19 @@
     }
 
     if (!options.autoclose) {
-      // If autoclose is not setted, append a button
+      // If autoclose is not setted, append a button.
       $('<button type="button" class="btn btn-sm btn-default btn-block clockpicker-button">' + options.donetext + '</button>')
         .click($.proxy(this.done, this))
         .appendTo(popover);
     }
 
     // Placement and arrow align - make sure they make sense.
-    if (/^(top|bottom)/.test(options.placement) && (options.align === 'top' || options.align === 'bottom')) options.align = 'left';
-    if ((options.placement === 'left' || options.placement === 'right') && (options.align === 'left' || options.align === 'right')) options.align = 'top';
+    if (/^(top|bottom)/.test(options.placement) && (options.align === 'top' || options.align === 'bottom')) {
+      options.align = 'left';
+    }
+    if ((options.placement === 'left' || options.placement === 'right') && (options.align === 'left' || options.align === 'right')) {
+      options.align = 'top';
+    }
 
     popover.addClass(options.placement);
     popover.addClass('clockpicker-align-' + options.align);
@@ -175,17 +177,17 @@
     this.spanHours.click($.proxy(this.toggleView, this, 'hours'));
     this.spanMinutes.click($.proxy(this.toggleView, this, 'minutes'));
 
-    // Show or toggle
+    // Show or toggle.
     if (!options.addonOnly) {
       input.on('focus.clockpicker click.clockpicker', $.proxy(this.show, this));
     }
     addon.on('click.clockpicker', $.proxy(this.toggle, this));
 
-    // Build ticks
+    // Build ticks.
     var tickTpl = $('<div class="clockpicker-tick"></div>'),
       i, tick, radian, radius;
 
-    // Hours view
+    // Hours view.
     if (options.twelvehour) {
       for (i = 0; i < 12; i += options.hourstep) {
         tick = tickTpl.clone();
@@ -411,20 +413,32 @@
     return wholeSize % givenStepSize === 0 ? givenStepSize : 1;
   }
 
-  // Default options
+  // Default options.
   ClockPicker.DEFAULTS = {
-    'default': '', // default time, 'now' or '13:14' e.g.
-    fromnow: 0, // set default time to * milliseconds from now (using with default = 'now')
-    placement: 'bottom', // clock popover placement
-    align: 'left', // popover arrow align
-    donetext: 'Select', // done button text
-    autoclose: false, // auto close when minute is selected
-    twelvehour: false, // change to 12 hour AM/PM clock from 24 hour
-    vibrate: true, // vibrate the device when dragging clock hand
-    hourstep: 1, // allow to multi increment the hour
-    minutestep: 1, // allow to multi increment the minute
-    ampmSubmit: false, // allow submit with AM and PM buttons instead of the minute selection/picker
-    addonOnly: false // only open on clicking on the input-addon
+    // Default time, 'now' or '13:14' e.g.
+    'default': '',
+    // Set default time to * milliseconds from now (using with default = 'now').
+    fromnow: 0,
+    // Clock popover placement.
+    placement: 'bottom',
+    // Popover arrow align.
+    align: 'left',
+    // Done button text.
+    donetext: 'Select',
+    // Auto close when minute is selected.
+    autoclose: false,
+    // Change to 12 hour AM/PM clock from 24 hour.
+    twelvehour: false,
+    // Vibrate the device when dragging clock hand.
+    vibrate: true,
+    // Allow to multi increment the hour.
+    hourstep: 1,
+    // Allow to multi increment the minute.
+    minutestep: 1,
+    // Allow submit with AM and PM buttons instead of the minute selection/picker.
+    ampmSubmit: false,
+    // Only open on clicking on the input-addon.
+    addonOnly: false,
   };
 
   // Show or hide popover
@@ -467,39 +481,48 @@
 
     popover.show();
 
-    // Place the popover
+    // Place the popover.
     switch (placement) {
       case 'bottom':
         styles.top = offset.top + height;
         break;
+
       case 'right':
         styles.left = offset.left + width;
         break;
+
       case 'top':
         styles.top = offset.top - popover.outerHeight();
         break;
+
       case 'left':
         styles.left = offset.left - popover.outerWidth();
         break;
+
       case 'viewport-top':
         styles.top = offset.top - element[0].getBoundingClientRect().top;
         break;
+
     }
 
-    // Align the popover arrow
+    // Align the popover arrow.
     switch (align) {
       case 'left':
         styles.left = offset.left;
         break;
+
       case 'right':
         styles.left = offset.left + width - popover.outerWidth();
         break;
+
       case 'top':
         styles.top = offset.top;
         break;
+
       case 'bottom':
         styles.top = offset.top + height - popover.outerHeight();
         break;
+
     }
 
     popover.css(styles);
@@ -511,7 +534,8 @@
     var value = this.input.prop('value') || this.options['default'] || '';
 
     if (value === 'now') {
-      value = new Date(+new Date() + this.options.fromnow);
+      var tempDate = + new Date();
+      value = new Date(tempDate + this.options.fromnow);
     }
     if (value instanceof Date) {
       value = value.getHours() + ':' + value.getMinutes();
@@ -520,8 +544,8 @@
     value = value.split(':');
 
     // Minutes can have AM/PM that needs to be removed
-    this.hours = +value[0] || 0;
-    this.minutes = +(value[1] + '').replace(/\D/g, '') || 0;
+    this.hours = + value[0] || 0;
+    this.minutes = + (value[1] + '').replace(/\D/g, '') || 0;
 
     this.hours = Math.round(this.hours / this.options.hourstep) * this.options.hourstep;
     this.minutes = Math.round(this.minutes / this.options.minutestep) * this.options.minutestep;
@@ -741,7 +765,7 @@
     if (!svgSupported) {
       this[isHours ? 'hoursView' : 'minutesView'].find('.clockpicker-tick').each(function() {
         var tick = $(this);
-        tick.toggleClass('active', value === +tick.html());
+        tick.toggleClass('active', value === + tick.html());
       });
       return;
     }
