@@ -3,7 +3,10 @@
  * @file
  * Enables modules and site configuration for a westminster site installation.
  */
- 
+
+/**
+ * Westminster install tasks.
+ */
 function westminster_install_tasks() {
   $tasks = array();
   $tasks['enable_themes'] = array(
