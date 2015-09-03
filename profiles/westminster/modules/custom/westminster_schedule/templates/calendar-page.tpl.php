@@ -1,6 +1,12 @@
+<?php
+/**
+ * @file
+ * calendar-page.tpl.php
+ */
+ ?>
 <script type="text/javascript">
     var BASEPATH = "<?php echo base_path();?>";
-    var DISPLAY_ID = "<?php echo arg(2); ?>"; 
+    var DISPLAY_ID = "<?php echo arg(2); ?>";
 </script>
 <div id='calendar'></div>
 

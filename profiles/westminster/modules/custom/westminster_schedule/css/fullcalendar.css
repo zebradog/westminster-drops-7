@@ -27,7 +27,6 @@ html .fc,
 }
 
 
-
 /* Header
 ------------------------------------------------------------------------*/
 
@@ -96,7 +95,6 @@ html .fc,
 }
 
 
-
 /* Content
 ------------------------------------------------------------------------*/
 
@@ -109,7 +107,6 @@ html .fc,
   width: 100%;
   overflow: hidden;
 }
-
 
 
 /* Cell Styles
@@ -129,7 +126,6 @@ html .fc,
   opacity: .3;
   filter: alpha(opacity=30); /* for IE */
 }
-
 
 
 /* Buttons
@@ -248,7 +244,6 @@ html .fc,
 }
 
 
-
 /* Global Event Styles
 ------------------------------------------------------------------------*/
 
@@ -303,7 +298,6 @@ a.fc-event,
 }
 
 
-
 /* Horizontal Events
 ------------------------------------------------------------------------*/
 
@@ -349,7 +343,6 @@ a.fc-event,
 }
 
 
-
 /* Reusable Separate-border Table
 ------------------------------------------------------------*/
 
@@ -376,7 +369,6 @@ table.fc-border-separate {
 .fc-border-separate tbody tr.fc-first th {
   border-top-width: 0;
 }
-
 
 
 /* Month View, Basic Week View, Basic Day View
@@ -430,7 +422,6 @@ table.fc-border-separate {
 }
 
 
-
 /* Agenda Week View, Agenda Day View
 ------------------------------------------------------------------------*/
 
@@ -476,7 +467,7 @@ table.fc-border-separate {
 }
 
 .fc-agenda-allday .fc-day-content {
-  min-height: 34px; /* TODO: doesnt work well in quirksmode */
+  min-height: 34px; /* TODO: doesn't work well in quirksmode */
   _height: 34px;
 }
 
@@ -521,7 +512,6 @@ table.fc-border-separate {
 }
 
 
-
 /* Vertical Events
 ------------------------------------------------------------------------*/
 
@@ -551,7 +541,8 @@ table.fc-border-separate {
   z-index: 2;
 }
 
-.fc-event-vert .fc-event-bg { /* makes the event lighter w/ a semi-transparent overlay  */
+.fc-event-vert .fc-event-bg {
+  /* makes the event lighter w/ a semi-transparent overlay  */
   position: absolute;
   z-index: 1;
   top: 0;
@@ -582,8 +573,7 @@ table.fc-border-separate {
   cursor: s-resize;
 }
 
-.fc-agenda .ui-resizable-resizing { /* TODO: better selector */
+.fc-agenda .ui-resizable-resizing {
+  /* TODO: better selector */
   _overflow: hidden;
 }
-
-

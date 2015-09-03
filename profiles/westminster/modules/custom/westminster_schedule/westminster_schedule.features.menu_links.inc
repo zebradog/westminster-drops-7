@@ -122,6 +122,5 @@ function westminster_schedule_menu_default_menu_links() {
   t('Schedule');
   t('Tradeshow Schedule');
 
-
   return $menu_links;
 }

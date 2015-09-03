@@ -1,3 +1,8 @@
+/**
+ * @file
+ * JS code for the westminster_schedule feature.
+ */
+
 if (top != self) {
   top.location.replace(self.location.href);
 }
@@ -32,14 +37,16 @@ jQuery(document).ready(function() {
     $('#modalTemplate').on('hide', function() {
       $('#calendar').fullCalendar('refetchEvents');
       $('#activeModal').remove();
-      if($modalTemplate)
+      if ($modalTemplate) {
         $modalTemplate.clone(true).attr('id','activeModal').appendTo('body');
+      }
     });
 
     $('#repeat-checkbox').prop('checked', false).on('click', function() {
       if (this.checked) {
         $('#repeat-content').removeClass('hidden');
-      } else {
+      }
+      else {
         $('#repeat-content').addClass('hidden');
       }
     });
@@ -48,23 +55,25 @@ jQuery(document).ready(function() {
       $('#' + this.value.toLowerCase() + '-repeat-options').removeClass('hidden');
     });
     $('.clockpicker').on('keyup input', function() {
-      //console.log('test');
-      //change clockpicker here on input to reflect manually typed time on click immediately
+      // Console.log('test');
+      // Change clockpicker here on input to reflect manually typed time on click immediately.
     })
     $('.num-input').on("keypress", function(e) {
-      //allow 1-9, no + or - characters
+      // Allow 1-9, no + or - characters.
       return posNumOnly(e, this);
     })
     $('.num-input').bind('keyup input', function(e) {
       if (this.value == 0) {
         this.value = 1;
-      } else if (this.value[0] == "0") {
-        //check for leading zeros and remove them
+      }
+      else if (this.value[0] == "0") {
+        // Check for leading zeros and remove them.
         var numZero = 0;
         for (var i = 0; i < this.value.length; i++) {
           if (this.value[i] == "0") {
             numZero++;
-          } else {
+          }
+          else {
             break;
           }
         }
@@ -76,7 +85,8 @@ jQuery(document).ready(function() {
     $('#scenario-schedule #scenario-dropdown').change(function() {
       if ($('#scenario-schedule #scenario-dropdown')[0].value == "_none") {
         $('#scenario-schedule #event-title')[0].value = "";
-      } else {
+      }
+      else {
         $('#scenario-schedule #event-title')[0].value = $('#scenario-schedule #scenario-dropdown option:selected').text();
       }
     });
@@ -84,10 +94,11 @@ jQuery(document).ready(function() {
     $('#scenario-schedule #edit-submit').on('click', function() {
       var formData = gatherFormData();
       if (formData != false) {
-        //do stuff with cms here
+        // Do stuff with cms here.
         if ($('#scenario-schedule').data('nid')) {
           updateExistingEvent(formData, $('#scenario-schedule').data('nid'));
-        } else {
+        }
+        else {
           addEvent(formData);
         }
       }
@@ -101,7 +112,7 @@ jQuery(document).ready(function() {
     switch (e.keyCode) {
       case 48:
         return that.value.length == 0 ? false : true;
-        break;
+
       case 49:
       case 50:
       case 51:
@@ -112,29 +123,33 @@ jQuery(document).ready(function() {
       case 56:
       case 57:
         return true;
+
       default:
         return false;
+
     }
   }
 
   function togglePlural(plural, $text) {
     var text = $text.text();
     if (!plural) {
-      //check for s to remove
+      // Check for s to remove.
       if (text[text.length - 1] == "s") {
-        //ends in s, remove the s
+        // Ends in s, remove the s.
         $text.text(text.substring(0, text.length - 1));
       }
-    } else {
+    }
+    else {
       if (text[text.length - 1] != "s") {
         $text.text(text + "s");
       }
     }
   }
 
-  //Get previous has if it exists - used to redirect back from the modal state to previous calendar view
+  // Get previous has if it exists - used to redirect back from the modal state to previous calendar view.
   if (sessionStorage.getItem("hash")) {
-    window.location.hash = sessionStorage.getItem("hash"); //get previous hash tag if exists
+    // Get previous hash tag if exists.
+    window.location.hash = sessionStorage.getItem("hash");
   }
   setView();
 
@@ -155,7 +170,7 @@ jQuery(document).ready(function() {
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     },
-    events: BASEPATH+'events/json?id='+DISPLAY_ID,
+    events: BASEPATH + 'events/json?id=' + DISPLAY_ID,
     defaultView: cView,
     editable: true,
     selectable: true,
@@ -165,7 +180,7 @@ jQuery(document).ready(function() {
       createEvent(start, end, allDay, cDisplay);
     },
     viewRender: function(view, element) {
-      //getEvents(view.visStart, view.visEnd, cDisplay);
+      // GetEvents(view.visStart, view.visEnd, cDisplay);
       var name = view.name == DEFAULT_VIEW ? '' : view.name;
       var d = $('#calendar').fullCalendar('getDate');
       window.location.hash = name + '/' + d.getFullYear() + '/' + d.getMonth() + '/' + d.getDate();
@@ -173,16 +188,19 @@ jQuery(document).ready(function() {
         $(window).on('hashchange', function() {
           setView();
           var v = $('#calendar').fullCalendar('getView');
-          if (v.name != cView)
+          if (v.name != cView){
             $('#calendar').fullCalendar('changeView', cView);
+          }
           $('#calendar').fullCalendar('gotoDate', cYear, cMonth, cDate);
-          sessionStorage.setItem("hash", window.location.hash); //store hash tag for refresh
+          // Store hash tag for refresh.
+          sessionStorage.setItem("hash", window.location.hash);
         });
         init = true;
       }
     },
     eventClick: function(event, jsEvent, view) {
-      var sTime = event.start.toTimeString().split(" ")[0]; //do this since date is included in time, need to remove date
+      // Do this since date is included in time, need to remove date.
+      var sTime = event.start.toTimeString().split(" ")[0];
       var eTime = event.end.toTimeString().split(" ")[0];
       showModal({
         "sDate": event.start,
@@ -204,15 +222,15 @@ jQuery(document).ready(function() {
     },
     eventRender: function(event, element) {
       // Note that any additional pieces of DOM can be inserted here, like these elements below.
-      // event.properties must be set in getEvents, and may be styled with schedule.css
+      // Event.properties must be set in getEvents, and may be styled with schedule.css.
       $(element).data('start', event.starttime);
       $(element).data('end', event.endtime);
     }
   });
 
   function showModal(eventObj) {
-    //big change here
-    //have to pull in data from eventObj and populate fields of modal with the data
+    // Big change here.
+    // Have to pull in data from eventObj and populate fields of modal with the data.
     var HEADER_HEIGHT = 48;
 
     var $c = $('#activeModal');
@@ -233,7 +251,7 @@ jQuery(document).ready(function() {
       changeMonth: true,
       changeYear: true
     });
-    //populate modal with incoming data
+    // Populate modal with incoming data.
     var sDate = eventObj.sDate;
     var sTime = eventObj.sTime;
     var eDate = eventObj.eDate;
@@ -243,8 +261,8 @@ jQuery(document).ready(function() {
     var rrule = eventObj.rrule ? RRule.parseString(eventObj.rrule.replace("RRULE:", "")) : false;
 
     var scenarioNid = eventObj.scenarioNid;
-    //convert dates to date string excepted by date input time
-    //same with times
+    // Convert dates to date string excepted by date input time.
+    // Same with times.
     $schedule.find('#sDate')[0].value = new Date(sDate).toISOString().split('T')[0];
     $schedule.find('#sTime')[0].value = stringToTime(sTime);
     $schedule.find('#eDate')[0].value = new Date(eDate).toISOString().split('T')[0];
@@ -252,26 +270,30 @@ jQuery(document).ready(function() {
     $schedule.find('#displayId')[0].value = displayId;
     $schedule.find('#event-title')[0].value = title ? title : "";
     if (rrule) {
-      //node repeats
+      // Node repeats.
       $schedule.find('#repeat-checkbox').trigger('click');
       switch (rrule.freq) {
         case RRule.DAILY:
           $('#rdaily').trigger('click');
-          //We have a few possibilities
-          //Variables to check: count OR until, interval, byweekday
-          //if no byweekday, then it repeats every interval days
+          // We have a few possibilities.
+          // Variables to check: count OR until, interval, byweekday.
+          // If no byweekday, then it repeats every interval days.
           if (!rrule.byweekday || !rrule.byweekday.length) {
             $('#daily-repeat-interval-option-1').trigger('click');
             $('#daily-repeat-interval-option-1-interval-child').val(rrule.interval);
-          } else if (rrule.byweekday.length == 2) {
-            //Every tu/th
+          }
+          else if (rrule.byweekday.length == 2) {
+            // Every tu/th.
             $('#daily-repeat-interval-option-4').trigger('click');
-          } else if (rrule.byweekday.length == 3) {
+          }
+          else if (rrule.byweekday.length == 3) {
             $('#daily-repeat-interval-option-3').trigger('click');
-          } else if (rrule.byweekday.length == 5) {
+          }
+          else if (rrule.byweekday.length == 5) {
             $('#daily-repeat-interval-option-2').trigger('click');
           }
           break;
+
         case RRule.WEEKLY:
           $('#rweekly').trigger('click');
           $('#weekly-repeat-interval-option-1-interval').val(rrule.interval);
@@ -279,48 +301,57 @@ jQuery(document).ready(function() {
             for (var i = 0; i < rrule.byweekday.length; i++) {
               switch (rrule.byweekday[i].weekday) {
                 case 0:
-                  //Monday
+                  // Monday.
                   $('#wrmon').prop('checked', true);
                   break;
+
                 case 1:
-                  //Tuesday
+                  // Tuesday.
                   $('#wrtue').prop('checked', true);
                   break;
+
                 case 2:
-                  //Wednesday
+                  // Wednesday.
                   $('#wrwed').prop('checked', true);
                   break;
+
                 case 3:
-                  //Thursday
+                  // Thursday.
                   $('#wrthu').prop('checked', true);
                   break;
+
                 case 4:
-                  //Friday
+                  // Friday.
                   $('#wrfri').prop('checked', true);
                   break;
+
                 case 5:
-                  //Saturday
+                  // Saturday.
                   $('#wrsat').prop('checked', true);
                   break;
+
                 case 6:
-                  //Sunday
+                  // Sunday.
                   $('#wrsun').prop('checked', true);
                   break;
+
               }
             }
           }
           break;
+
           /*MONTHLY FEATURES case RRule.MONTHLY:
             break;*/
           /*YEARLY FEATUREScase RRule.YEARLY:
             break;*/
       }
-      //set either count or until
+      // Set either count or until.
       if (rrule.count) {
         var count = rrule.count;
         $('#stopAfter').trigger('click');
         $('#num-occurrence').val(rrule.count);
-      } else {
+      }
+      else {
         $('#stopon').trigger('click');
         $('#repeatStopDate').val(new Date(rrule.until).toISOString().split('T')[0]);
       }
@@ -334,7 +365,9 @@ jQuery(document).ready(function() {
       for (var i = 0; i < data.length; i++) {
         var item = data[i];
         var $item = $('<option data-nid="' + item.nid + '" value="' + item.title.toLowerCase().replace(/ /g, '_') + '">' + item.title + '</option>');
-        if (parseInt(scenarioNid) == parseInt(item.nid)) $item.prop('selected',true);
+        if (parseInt(scenarioNid) == parseInt(item.nid)) {
+          $item.prop('selected',true);
+        }
         $scenarioDropdown.append($item);
       }
       $('#activeModal').removeClass('loading');
@@ -342,26 +375,27 @@ jQuery(document).ready(function() {
   }
 
   function stringToTime(s) {
-    //separate time into array [HH, mmam] or [HH, mmpm]
+    // Separate time into array [HH, mmam] or [HH, mmpm].
     var twelveHour = false;
     if (s.toLowerCase().indexOf("am") >= 0 || s.toLowerCase().indexOf("pm") >= 0) {
       twelveHour = true;
     }
     var timeArray = s.split(":");
-    //get string of hours
+    // Get string of hours.
     var hours = timeArray[0];
-    //get string of minutes
+    // Get string of minutes.
     var minutes = timeArray[1].substring(0, 2);
     if (twelveHour) {
-      //get string of am/pm
+      // Get string of am/pm.
       var amPm = timeArray[1].substring(2);
-      //get hours number - won't need minutes number since we won't need to manipulate minutes
+      // Get hours number - won't need minutes number since we won't need to manipulate minutes.
       hours = parseInt(hours) ? parseInt(hours) : 0;
-      //however we have to check if am or pm and convert hours to 24 hr format
+      // However we have to check if am or pm and convert hours to 24 hr format.
       if (hours == 12 && amPm.toUpperCase() == "AM") {
-        //set hours to 00
+        // Set hours to 00.
         hours = "00";
-      } else if (hours != 12 && amPm.toUpperCase() == "PM") {
+      }
+      else if (hours != 12 && amPm.toUpperCase() == "PM") {
         hours += 12;
       }
     }
@@ -371,7 +405,7 @@ jQuery(document).ready(function() {
     if ((minutes + "").length == 1) {
       minutes = "0" + minutes;
     }
-    //returns time in 24-hour format
+    // Returns time in 24-hour format.
     return hours + ":" + minutes;
   }
 
@@ -465,12 +499,14 @@ jQuery(document).ready(function() {
   }
 
   function createEvent(start, end, allDay, displayId) {
-    if (!end) end = start;
+    if (!end) {
+      end = start;
+    }
     var sDate = convertDateToCmsDate(start);
     var sTime = convertDateToCmsTime(start);
 
     if (allDay) {
-      //when dragging, if all day, set to beginning of day after last dragged day (midnight)
+      // When dragging, if all day, set to beginning of day after last dragged day (midnight)
       end.setDate(end.getDate() + 1);
       end.setHours(0);
       end.setMinutes(0);
@@ -530,17 +566,22 @@ jQuery(document).ready(function() {
   }
 
   function convertStringToCmsTime(s) {
-    //always receives time in 24-hour formData
-    //cms wants twelvehour - hh:mmam or hh:mmpm
+    // Always receives time in 24-hour formData.
+    // Cms wants twelvehour - hh:mmam or hh:mmpm.
     var timeSplit = s.split(':');
     var hours = timeSplit[0];
     var minutes = timeSplit[1];
-    //default - return midnight
-    if (!hours || !minutes) return '12:00am';
+    // Default - return midnight.
+    if (!hours || !minutes) {
+      return '12:00am';
+    }
     var ampm = "am";
     if (parseInt(hours) < 12) {
-      if (hours == "00") hours = "12";
-    } else {
+      if (hours == "00") {
+        hours = "12";
+      }
+    }
+    else {
       ampm = "pm";
       if (hours != "12") {
         hours = parseInt(hours) - 12;
@@ -552,8 +593,8 @@ jQuery(document).ready(function() {
     return hours + ":" + minutes + ampm;
   }
   function convertStringToCmsDate(s){
-    //recieves date in yyyy-mm-dd format
-    //cms wants mm/dd/yyyy
+    // Receives date in yyyy-mm-dd format.
+    // Cms wants mm/dd/yyyy.
     var splitDate = s.split('-');
     var month = splitDate[1];
     var day = splitDate[2];
@@ -564,66 +605,81 @@ jQuery(document).ready(function() {
   function gatherFormData() {
     var $form = $('#scenario-schedule');
     var error = [];
-    //title
+    // Title.
     var title = $form.find('#event-title')[0].value;
     if (!title || !title.length) {
-      //title is required
+      // Title is required.
       error.push("Content is required");
       $('#scenario-dropdown').focus();
-
-    } else {
+    }
+    else {
       $('#scenario-dropdown').siblings().find('.required-text').text("");
     }
-    //displayId
+    // DisplayId.
     var displayId = $form.find('#displayId')[0].value;
     if (!displayId || !displayId.length) {
       error.push("Display is required");
       $('#scenario-dropdown').focus();
-
-    } else {
+    }
+    else {
       $('#scenario-dropdown').siblings().find('.required-text').text("");
     }
-    //startDate
+    // StartDate.
     var sDate = $form.find('#sDate')[0].value;
     if (!sDate || !sDate.length) {
-      if (!error.length) $('#sDate').focus();
+      if (!error.length) {
+        $('#sDate').focus();
+      }
       error.push("Start date is required.");
-    } else {
+    }
+    else {
       $('#sDate').siblings().find('.required-text').text("");
     }
-    //startTime
+    // StartTime.
     var sTime = $form.find('#sTime')[0].value;
     if (!sTime || !sTime.length) {
-      if (!error.length) $('#sTime').focus();
+      if (!error.length) {
+        $('#sTime').focus();
+      }
       error.push("Start time is required");
-    } else {
+    }
+    else {
       $('#sTime').siblings().find('.required-text').text("");
     }
-    //endDate
+    // EndDate.
     var eDate = $form.find('#eDate')[0].value;
     if (!eDate || !eDate.length) {
-      if (error.length) $('#eDate').focus();
+      if (error.length) {
+        $('#eDate').focus();
+      }
       error.push("End date is required");
-    } else {
+    }
+    else {
       $('#eDate').siblings().find('.required-text').text("");
     }
-    //endTime
+    // EndTime.
     var eTime = $form.find('#eTime')[0].value;
     if (!eTime || !eTime.length) {
-      if (error.length) $('#eTime').focus();
+      if (error.length) {
+        $('#eTime').focus();
+      }
       error.push("End time is required");
-    } else {
+    }
+    else {
       $('#eTime').siblings().find('.required-text').text("");
     }
-    //repeats
+    // Repeats.
     var repeats = $form.find('#repeat-checkbox').prop('checked');
-    //scenarioNid
+    // ScenarioNid.
     var scenarioNid = $form.find('#scenario-dropdown option:selected').data('nid');
     if (!scenarioNid || scenarioNid == "") {
-      //title is required
+      // Title is required.
       $('#scenario-dropdown').focus();
-      if(!error.length) error.push('Content is requred');
-    } else {
+      if (!error.length) {
+        error.push('Content is requred');
+      }
+    }
+    else {
       $('#scenario-dropdown').siblings().find('.required-text').text("");
     }
     var repeatsObject = null;
@@ -631,7 +687,7 @@ jQuery(document).ready(function() {
       var frequency = $form.find('input[name=repeats]:checked').val();
       switch (frequency) {
         case "DAILY":
-          //Daily repeat items
+          // Daily repeat items.
           var daily_byday_radios = $form.find('input[name=daily-interval]:checked').val();
           var daily_interval_child = $form.find('#daily-repeat-interval-option-1-interval-child').val();
           repeatsObject = {
@@ -642,8 +698,9 @@ jQuery(document).ready(function() {
             }
           };
           break;
+
         case "WEEKLY":
-          //Weekly repeat items
+          // Weekly repeat items.
           var weekly_interval = $form.find('#weekly-repeat-interval-option-1-interval').val();
           var weekly_byday_all = $form.find('#weekly-repeat-options input.repeat-day:checked');
           var weekly_byday = {};
@@ -658,6 +715,7 @@ jQuery(document).ready(function() {
             }
           };
           break;
+
           /*MONTHLY FEATUREScase "MONTHLY":
             //Monthly repeat items
             var monthly_day_month = $form.find('input[name=monthly-repeat-interval-options]:checked').val();
@@ -728,21 +786,25 @@ jQuery(document).ready(function() {
           YEARLY FEATURES */
       }
 
-      //Universal repeat items
+      // Universal repeat items.
       var range_of_repeat = $form.find('input[name=stop-repeating]:checked').val();
       var count_child = $form.find('#num-occurrence').val();
       var until_child_datetime_date = $form.find('#repeatStopDate').val();
-      //var until_child_tz = ''; //?
-      //var until_child_all_day = ''; //?
-      //var until_child_granularity = ''; //?
+      // Var until_child_tz = ''; //?
+      // Var until_child_all_day = ''; //?
+      // Var until_child_granularity = ''; //?
       repeatsObject["range_of_repeat"] = range_of_repeat;
       if (range_of_repeat == "COUNT") {
         repeatsObject['count_child'] = count_child;
-      } else if (range_of_repeat == "UNTIL") {
+      }
+      else if (range_of_repeat == "UNTIL") {
         if (!until_child_datetime_date) {
-          if (!error.length) $('#repeatStopDate').focus();
+          if (!error.length) {
+            $('#repeatStopDate').focus();
+          }
           error.push("Stop date is required if using until field");
-        } else {
+        }
+        else {
           $('#repeatStopDate').siblings().find('.required-text').text("");
           repeatsObject['until_child'] = {
             'datetime': {
@@ -753,13 +815,13 @@ jQuery(document).ready(function() {
       }
     }
     if (error.length) {
-      for(var i = 0; i < error.length; i++){
+      for (var i = 0; i < error.length; i++) {
         alert(error[i]);
       }
       return false;
     }
 
-    //return Drupal form data
+    // Return Drupal form data.
     repeats = repeats ? "1" : "0";
     var newFormData = {
       "title": title,

@@ -21,6 +21,5 @@ function westminster_schedule_menu_default_menu_custom() {
   t('Management');
   t('The <em>Management</em> menu contains links used by Content Editors.');
 
-
   return $menus;
 }

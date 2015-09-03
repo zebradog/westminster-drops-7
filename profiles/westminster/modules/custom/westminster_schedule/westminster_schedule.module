@@ -7,10 +7,8 @@
 include_once 'westminster_schedule.features.inc';
 
 /**
- * @file
- * westminster Schedule functions.
+ * Sets up schedule menu.
  */
-
 function westminster_schedule_menu() {
   $items = array();
 
@@ -23,46 +21,53 @@ function westminster_schedule_menu() {
   );
 
   $items['schedule/json'] = array(
-      'access callback'   => true, // available to all
-      'page callback'     => '_westminster_schedule_json', // defined below
-      'type' => MENU_CALLBACK
+    // Available to all.
+    'access callback'   => TRUE,
+    // Defined below.
+    'page callback'     => '_westminster_schedule_json',
+    'type' => MENU_CALLBACK,
   );
 
   $items['events/json'] = array(
-      'access callback'   => true, // available to all
-      'page callback'     => '_westminster_events_json', // defined below
-      'type' => MENU_CALLBACK
+    // Available to all.
+    'access callback'   => TRUE,
+    // Defined below.
+    'page callback'     => '_westminster_events_json',
+    'type' => MENU_CALLBACK,
   );
 
   return $items;
 }
 
-function _westminster_events_json(){
+/**
+ * Gets already scheduled events.
+ */
+function _westminster_events_json() {
   $events = _westminster_schedule_getEvents();
   $output = array();
-  foreach($events as $row){
+  foreach ($events as $row) {
     $e = array();
     $e['id'] = $row->nid;
     $e['title'] = $row->node_title;
 
-    $repeat = $row->field_data_field_date_field_date_rrule ? true : false;
+    $repeat = $row->field_data_field_date_field_date_rrule ? TRUE : FALSE;
 
-    if($repeat){
+    if ($repeat) {
       $e['className'] = 'repeat';
       $e['rrule'] = $row->field_data_field_date_field_date_rrule;
     }
 
-    $timeArray = $row->_field_data['nid']['entity']->field_date['und'][0];
+    $time_array = $row->_field_data['nid']['entity']->field_date[LANGUAGE_NONE][0];
 
-    $e['start'] = date("c", strtotime($row->field_data_field_date_field_date_value.' '.$timeArray['timezone']));
-    $e['end'] = date("c", strtotime($row->field_data_field_date_field_date_value2.' '.$timeArray['timezone']));
-    $e['overlap'] = false;
-    $e['allDay'] = false;
+    $e['start'] = date("c", strtotime($row->field_data_field_date_field_date_value . ' ' . $time_array['timezone']));
+    $e['end'] = date("c", strtotime($row->field_data_field_date_field_date_value2 . ' ' . $time_array['timezone']));
+    $e['overlap'] = FALSE;
+    $e['allDay'] = FALSE;
     $e['startEditable'] = !$repeat;
     $e['durationEditable'] = !$repeat;
     $e['repeat'] = $repeat;
     $e['scenarioNid'] = $row->node_field_data_field_content_nid;
-    $e['display'] = $row->_field_data["nid"]["entity"]->field_display_term["und"][0]["tid"];
+    $e['display'] = $row->_field_data["nid"]["entity"]->field_display_term[LANGUAGE_NONE][0]["tid"];
 
     $output[] = $e;
   }
@@ -71,30 +76,39 @@ function _westminster_events_json(){
 
 }
 
-function _westminster_schedule_getEvents(){
-  $argStartDate = check_plain($_REQUEST['start']);
-  $argEndDate = check_plain($_REQUEST['end']);
-  $argDate = NULL;
-  if($argStartDate && $argEndDate){
-    $argDate = date('Ymd',strtotime($argStartDate)).'--'.date('Ymd',strtotime($argEndDate));
-  }elseif(!$argStartDate && $argEndDate){
-    $argDate = date('Ymd',strtotime($argEndDate));
-  }elseif($argStartDate && !$argEndDate){
-    $argDate = date('Ymd',strtotime($argStartDate));
-  }else{
-    //default to today +/- one day
+/**
+ * Gets all scheduled events.
+ */
+function _westminster_schedule_getEvents() {
+  $arg_start_date = check_plain($_REQUEST['start']);
+  $arg_end_date = check_plain($_REQUEST['end']);
+  $arg_date = NULL;
+  if ($arg_start_date && $arg_end_date) {
+    $arg_date = date('Ymd', strtotime($arg_start_date)) . '--' . date('Ymd', strtotime($arg_end_date));
+  }
+  elseif (!$arg_start_date && $arg_end_date) {
+    $arg_date = date('Ymd', strtotime($arg_end_date));
+  }
+  elseif ($arg_start_date && !$arg_end_date) {
+    $arg_date = date('Ymd', strtotime($arg_start_date));
+  }
+  else {
+    // Default to today +/- one day.
     $start = new DateTime();
     $end = new DateTime();
     $start = $start->sub(new DateInterval('P1D'));
     $end = $end->add(new DateInterval('P1D'));
-    $argDate = date_format($start,'Ymd').'--'.date_format($end,'Ymd');
+    $arg_date = date_format($start, 'Ymd') . '--' . date_format($end, 'Ymd');
   }
-  $displayId = check_plain($_REQUEST['id']);
-  $displayId = $displayId ? $displayId : "all";
-  return views_get_view_result('events', 'page',$displayId,$argDate);
+  $display_id = check_plain($_REQUEST['id']);
+  $display_id = $display_id ? $display_id : 'all';
+  return views_get_view_result('events', 'page', $display_id, $arg_date);
 }
 
-function _westminster_schedule_outputJSON($data){
+/**
+ * Returns JSON of scheduled events.
+ */
+function _westminster_schedule_outputJSON($data) {
   $callback = check_plain($_REQUEST['callback']);
   drupal_add_http_header('Access-Control-Allow-Origin', "*");
   drupal_add_http_header('Access-Control-Allow-Methods', 'GET');
@@ -103,46 +117,51 @@ function _westminster_schedule_outputJSON($data){
     drupal_add_http_header('Content-Type', 'application/json');
     echo $callback . "(" . $json_response . ");";
     drupal_exit();
-  }else {
+  }
+  else {
     drupal_json_output($data);
   }
 }
 
-function _westminster_schedule_json(){
+/**
+ * Prepares JSON of scheduled events.
+ */
+function _westminster_schedule_json() {
   $events = _westminster_schedule_getEvents();
-  $outputData = array();
-  $outputData['schedule'] = array();
-  $outputData['schedule']['Value'] = array();
-  $outputData['schedule']['Value']['items'] = array();
-  foreach($events as $row):
-    $url = $row->_field_data["node_field_data_field_content_nid"]["entity"]->field_url["und"][0]["value"];
-    if($url){
-      //append the NID to content URL's
-      $u = explode('#',$url);
-      $url = $u[0]; //set url to base, without hash
-      $url = (strpos($url,'?') !== FALSE) ? $url.'&nid='.$row->nid : $url.'?nid='.$row->nid;
-      //add the post-hash content back in
-      for($i = 1; $i < count($u); $i++){
-        $url = $url.'#'.$u[$i];
+  $output_data = array();
+  $output_data['schedule'] = array();
+  $output_data['schedule']['Value'] = array();
+  $output_data['schedule']['Value']['items'] = array();
+  foreach ($events as $row):
+    $url = $row->_field_data["node_field_data_field_content_nid"]["entity"]->field_url[LANGUAGE_NONE][0]["value"];
+    if ($url) {
+      // Append the NID to content URL's.
+      $u = explode('#', $url);
+      // Set url to base, without hash.
+      $url = $u[0];
+      $url = (strpos($url, '?') !== FALSE) ? $url . '&nid=' . $row->nid : $url . '?nid=' . $row->nid;
+      // Add the post-hash content back in.
+      for ($i = 1; $i < count($u); $i++) {
+        $url = $url . '#' . $u[$i];
       }
-    }else{
-      //default to the node permalink if no content URL provided
-      $url = url('node/'.$row->nid, array('absolute' => TRUE));
     }
-    $timeArray = $row->_field_data['nid']['entity']->field_date['und'][0];
-    $startTime = strtotime($row->field_data_field_date_field_date_value.' '.$timeArray['timezone']);
-    $endTime = strtotime($row->field_data_field_date_field_date_value2.' '.$timeArray['timezone']);
-    $startDate = date('D M d o H:i:s ',$startTime).'GMT'.date('O',$startTime);
-    $endDate = date('D M d o H:i:s ',$endTime).'GMT'.date('O',$endTime);
-    $tempData = array();
-    $tempData['content'] = $url;
-    $tempData['duration'] = strtotime($endDate) - strtotime($startDate);
-    $tempData['start'] = $startDate;
-    $tempData['end'] = $endDate;
-    //$tempData['repetition'] = $timeArray['rrule'] ? $timeArray['rrule']:'-';
-    array_push($outputData['schedule']['Value']['items'],$tempData);
+    else {
+      // Default to the node permalink if no content URL provided.
+      $url = url('node/' . $row->nid, array('absolute' => TRUE));
+    }
+    $time_array = $row->_field_data['nid']['entity']->field_date[LANGUAGE_NONE][0];
+    $start_time = strtotime($row->field_data_field_date_field_date_value . ' ' . $time_array['timezone']);
+    $end_time = strtotime($row->field_data_field_date_field_date_value2 . ' ' . $time_array['timezone']);
+    $start_date = date('D M d o H:i:s ', $start_time) . 'GMT' . date('O', $start_time);
+    $end_date = date('D M d o H:i:s ', $end_time) . 'GMT' . date('O', $end_time);
+    $temp_data = array();
+    $temp_data['content'] = $url;
+    $temp_data['duration'] = strtotime($end_date) - strtotime($start_date);
+    $temp_data['start'] = $start_date;
+    $temp_data['end'] = $end_date;
+    array_push($output_data['schedule']['Value']['items'], $temp_data);
   endforeach;
-  _westminster_schedule_outputJSON($outputData);
+  _westminster_schedule_outputJSON($output_data);
 }
 
 /**
@@ -166,20 +185,19 @@ function westminster_schedule_permission() {
 /**
  * Implements hook_action_info().
  */
-function westminster_schedule_page_schedule($display_id=NULL) {
-  // Create some data
-  $data = array
-  (
+function westminster_schedule_page_schedule($display_id = NULL) {
+  // Create some data.
+  $data = array(
     '#markup' => t('&nbsp;'),
     '#prefix' => '',
     '#suffix' => '',
   );
   // Create a $page render array that will be returned
   // from your callback. Attach the CSS using the #attached
-  // element of this array
+  // element of this array.
   $page = array(
     'westminster_schedule_page_schedule' => array(
-      // Note - we will register theme_my_page in the next step
+      // Note - we will register theme_my_page in the next step.
       '#theme' => 'westminster_ui',
       '#contents' => $data,
     ),
@@ -251,10 +269,9 @@ function westminster_schedule_page_schedule($display_id=NULL) {
           'type' => 'file',
           'data' => drupal_get_path('module', 'westminster_schedule') . '/js/schedule.js',
         ),
-      )
+      ),
     ),
   );
-
   return $page;
 }
 
@@ -292,55 +309,53 @@ function westminster_schedule_translated_menu_link_alter(&$item, $map) {
  */
 function westminster_schedule_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
-    case 'scheduled_content_node_form' :
-      // Prepopulate form based on activity in the Schedule page
+    case 'scheduled_content_node_form':
+      // Prepopulate form based on activity in the Schedule page.
       $params = drupal_get_query_parameters();
-      if (isset($params))
-      {
-        if (isset($params['date']) && is_array($params['date']))
-        {
-          if (isset($params['date']['value']['date']) && isset($params['date']['value']['time']))
-          {
+      if (isset($params)) {
+        if (isset($params['date']) && is_array($params['date'])) {
+          if (isset($params['date']['value']['date']) && isset($params['date']['value']['time'])) {
             $date1 = $params['date']['value']['date'];
             $time1 = $params['date']['value']['time'];
-            $formatted = date('c',strtotime($date1.' '.$time1));
-            $form['field_date']['und'][0]['#default_value']['value'] = $formatted;
+            $formatted = date('c', strtotime($date1 . ' ' . $time1));
+            $form['field_date'][LANGUAGE_NONE][0]['#default_value']['value'] = $formatted;
           }
-          if (isset($params['date']['value2']['date']) && isset($params['date']['value2']['time']))
-          {
+          if (isset($params['date']['value2']['date']) && isset($params['date']['value2']['time'])) {
             $date2 = $params['date']['value2']['date'];
             $time2 = $params['date']['value2']['time'];
-            $formatted = date('c',strtotime($date2.' '.$time2));
-            $form['field_date']['und'][0]['#default_value']['value2'] = $formatted;
+            $formatted = date('c', strtotime($date2 . ' ' . $time2));
+            $form['field_date'][LANGUAGE_NONE][0]['#default_value']['value2'] = $formatted;
           }
         }
-        if (isset($params['field_scenario']))
-        {
-          $form['field_default_scenario']['und']['#default_value'] = $params['field_scenario'];
+        if (isset($params['field_scenario'])) {
+          $form['field_default_scenario'][LANGUAGE_NONE]['#default_value'] = $params['field_scenario'];
         }
-        if (isset($params['field_display']))
-        {
-          $form['field_display_term']['und']['#default_value'] = $params['field_display'];
+        if (isset($params['field_display'])) {
+          $form['field_display_term'][LANGUAGE_NONE]['#default_value'] = $params['field_display'];
         }
       }
       break;
   }
 }
 
+/**
+ * Adds term to schedule.
+ */
 function westminster_schedule_taxonomy_term_insert($term) {
   $vobj = taxonomy_vocabulary_machine_name_load('displays');
   if ($term->vid == $vobj->vid) {
-    // If term is a member of the displays vocabulary, create a menu entry under Schedules
+    // If term is a member of the displays vocabulary,
+    // create a menu entry under Schedules.
     $item = array(
       'menu_name' => 'management',
-      'link_path' => 'admin/schedule/'.$term->tid,
+      'link_path' => 'admin/schedule/' . $term->tid,
       'router_path' => 'admin/schedule/%',
-      'link_title' => $term->name.' Schedule',
+      'link_title' => $term->name . ' Schedule',
       'options' => array(
         'attributes' => array(
           'title' => '',
         ),
-        'identifier' => 'management_'.strtolower($term->name).'-schedule:admin/schedule/'.$term->tid,
+        'identifier' => 'management_' . strtolower($term->name) . '-schedule:admin/schedule/' . $term->tid,
       ),
       'module' => 'menu',
       'hidden' => 0,
@@ -355,7 +370,7 @@ function westminster_schedule_taxonomy_term_insert($term) {
       ->fields(array(
                  'plid' => 313,
                ))
-      ->condition('mlid',$item_id)
+      ->condition('mlid', $item_id)
       ->execute();
   }
 }
