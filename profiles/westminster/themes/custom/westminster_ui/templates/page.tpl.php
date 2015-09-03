@@ -4,10 +4,10 @@
  * HTML Template
  */
 
-  $is_scheduled_content = (isset($node) && $node->type == 'scheduled_content') ? TRUE : FALSE;
-  : $embed = (isset($_GET['embed'])) ? $_GET['embed'] : $is_scheduled_content;
+  $is_scheduled_content = (isset($node) && $node->type == 'scheduled_content') ? TRUE : FALSE
+  $embed = (isset($_GET['embed'])) ? $_GET['embed'] : $is_scheduled_content;
 
- if(: $embed) : ?>
+ if($embed) : ?>
 <style type="text/css">
   body{
     padding-top:1em;
@@ -56,7 +56,7 @@
 </header>
 <?php endif; ?>
 <div class="main-container container">
-  <?php if(!: $embed) : ?>
+  <?php if(!$embed) : ?>
   <header role="banner" id="page-header">
     <?php if (!empty($site_slogan)): ?>
       <p class="lead"><?php print $site_slogan; ?></p>
@@ -77,9 +77,9 @@
       <?php if (!empty($page['highlighted'])): ?>
         <div class="highlighted hero-unit"><?php print render($page['highlighted']); ?></div>
       <?php endif; ?>
-      <?php if (!empty($breadcrumb) && !: $embed): print $breadcrumb; endif;?>
+      <?php if (!empty($breadcrumb) && !$embed): print $breadcrumb; endif;?>
       <a id="main-content"></a>
-      <?php if(!: $embed) : ?>
+      <?php if(!$embed) : ?>
       <?php print render($title_prefix); ?>
       <?php if (!empty($title)): ?>
         <h1 class="page-header"><?php print $title; ?></h1>
@@ -107,7 +107,7 @@
 
   </div>
 </div>
-<?php if(!: $embed) : ?>
+<?php if(!$embed) : ?>
 <footer class="footer container">
   <?php print render($page['footer']); ?>
 </footer>
