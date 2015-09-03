@@ -4,7 +4,7 @@
  * HTML Template
  */
 
-  $is_scheduled_content = (isset($node) && $node->type == 'scheduled_content') ? TRUE : FALSE
+  $is_scheduled_content = (isset($node) && $node->type == 'scheduled_content') ? TRUE : FALSE;
   $embed = (isset($_GET['embed'])) ? $_GET['embed'] : $is_scheduled_content;
 
  if($embed) : ?>
