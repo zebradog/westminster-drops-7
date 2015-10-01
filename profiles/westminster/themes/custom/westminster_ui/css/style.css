@@ -54,6 +54,10 @@ section#block-user-login.user-menu {
   display: block;
   padding: 15px;
 }
+.logo {
+  position: relative;
+  top: 6px;
+}
 .breadcrumb {
   display: none;
 }
