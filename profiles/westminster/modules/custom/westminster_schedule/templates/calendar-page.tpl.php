@@ -1,6 +1,12 @@
+<?php
+/**
+ * @file
+ * calendar-page.tpl.php
+ */
+ ?>
 <script type="text/javascript">
     var BASEPATH = "<?php echo base_path();?>";
-    var DISPLAY_ID = "<?php echo arg(2); ?>"; 
+    var DISPLAY_ID = "<?php echo arg(2); ?>";
 </script>
 <div id='calendar'></div>
 
@@ -80,13 +86,13 @@
                   <input id="daily-repeat-interval-option-1-interval-child" type="number" class="ib form-control num-input" name="repeats-every" size="5" maxlength="5" min="1" value="1"></input>
                 </div>
                 day
-                <br>
+                <br />
                 <input id='daily-repeat-interval-option-2' type="radio" name="daily-interval" value="every_weekday"></input>&nbsp;&nbsp;Every weekday
-                <br>
+                <br />
                 <input id='daily-repeat-interval-option-3' type="radio" name="daily-interval" value="every_mo_we_fr"></input>&nbsp;&nbsp;Every Mon, Wed, Fri
-                <br>
+                <br />
                 <input id='daily-repeat-interval-option-4' type="radio" name="daily-interval" value="every-tu-th"></input>&nbsp;&nbsp;Every Tue, Thu
-                <br>
+                <br />
               </div>
             </div>
 
@@ -119,7 +125,7 @@
                   <input id="stopafter" type="radio" name="stop-repeating" value="COUNT" checked></input>&nbsp;&nbsp;
                   <input id="num-occurrence" type="number" class="num-input" name="rafter-number" hint="#" value="5" size="20" maxlength="30" min="1"></input>
                   occurrences
-                  <br><br>
+                  <br /><br />
                   <input id="stopon" type="radio"  name="stop-repeating" value="UNTIL"></input>&nbsp;&nbsp;
                   <input class="datepicker date-popup-init" type="date" id="repeatStopDate" name="ron-date" size="20" maxlength="30" value=""></input>
 

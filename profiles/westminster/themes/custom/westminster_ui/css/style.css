@@ -1,21 +1,22 @@
-.not-logged-in .nav.menu{
-  display:none;
+.not-logged-in .nav.menu {
+  display: none;
 }
 .embed .vertical-tabs {
-  display:none;
+  display: none;
 }
 #edit-field-categories-tid {
-  width:230px;
+  width: 230px;
 }
 .management-menu {
-  float:left;
+  float: left;
 }
 .user-menu {
-  float:right;
+  float: right;
 }
-.management-menu li, .user-menu li {
-  display:inline-block;
-  float:left;
+.management-menu li,
+.user-menu li {
+  display: inline-block;
+  float: left;
 }
 #site-name {
   display: inline-block;
@@ -26,28 +27,29 @@
   left: -12px;
   top: 15px;
   padding-right: 10px;
-  font-size:18px;
+  font-size: 18px;
 }
 div.region-navigation {
-  display:inline;
+  display: inline;
 }
 .nav>li>a {
-  height:48px;
+  height: 48px;
 }
 #edit-field-categories-tid-wrapper {
-  width:280px;
+  width: 280px;
 }
 .form-item-author {
-  width:180px;
+  width: 180px;
 }
 section#block-user-login.user-menu {
-  float:none;
+  float: none;
 }
 #block-user-login .btn {
-  float:right;
+  float: right;
 }
-.dropdown-menu li.leaf, .dropdown-menu li.expanded {
-  width:100%;
+.dropdown-menu li.leaf,
+.dropdown-menu li.expanded {
+  width: 100%;
 }
 .nav>li>a {
   position: relative;

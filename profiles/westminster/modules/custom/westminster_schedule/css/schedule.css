@@ -1,30 +1,31 @@
-.modal{
+.modal {
   border-radius: 6px;
 }
 
-.modal.loading .modal-body, .modal.loading .modal-footer{
+.modal.loading .modal-body,
+.modal.loading .modal-footer {
   visibility: hidden;
 }
 
-.modal .nav{
-  margin:10px 0 0 0;
-  padding:0 30px 0 10px;
+.modal .nav {
+  margin: 10px 0 0 0;
+  padding: 0 30px 0 10px;
 }
-.modal .close{
-  position:absolute;
-  top:12px;
-  right:16px;
+.modal .close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
 }
-.modal iframe{
-  border:none;
-  width:100%;
+.modal iframe {
+  border: none;
+  width: 100%;
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
 }
-.modal-body{
-  margin:0;
-  padding:0;
-  overflow:hidden;
+.modal-body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
   max-height: none;
@@ -32,59 +33,64 @@
 .fc-event,
 .fc-agenda .fc-event-time,
 .fc-event a {
-    background-color: #428bca; /* background color */
-    border-color: #357ebd;     /* border color */
-    color: #fff;              /* text color */
-    cursor:pointer;
+  background-color: #428bca; /* background color */
+  border-color: #357ebd;     /* border color */
+  color: #fff;              /* text color */
+  cursor: pointer;
 }
 .repeat.fc-event,
 .fc-agenda .repeat .fc-event-time,
 .repeat .fc-event a {
-    background-color: #5cb85c; /* background color */
-    border-color: #4cae4c;     /* border color */
-    color: #fff;              /* text color */
-    cursor:pointer;
+  background-color: #5cb85c; /* background color */
+  border-color: #4cae4c;     /* border color */
+  color: #fff;              /* text color */
+  cursor: pointer;
 }
 
-body.embed #admin-menu-wrapper, body.embed #admin-toolbar, body.embed div#admin-menu-wrapper, body.embed #admin-menu {
-  display:none;
+body.embed #admin-menu-wrapper,
+body.embed #admin-toolbar,
+body.embed div#admin-menu-wrapper,
+body.embed #admin-menu {
+  display: none;
 }
 
-.ib{
-  display:inline-block;
+.ib {
+  display: inline-block;
 }
 
-#scenario-schedule .c-text{
-  text-align:center;
+#scenario-schedule .c-text {
+  text-align: center;
 }
 
-#scenario-schedule .padright{
-  padding-right:20px;
+#scenario-schedule .padright {
+  padding-right: 20px;
 }
 
-#scenario-schedule .padsides{
-  padding-left:20px;
-  padding-right:20px;
+#scenario-schedule .padsides {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
-#scenario-schedule .hcenter{
-  display:block;
-  margin:0 auto;
+#scenario-schedule .hcenter {
+  display: block;
+  margin: 0 auto;
 }
 
-#scenario-schedule form{
-  padding:15px;
+#scenario-schedule form {
+  padding: 15px;
 }
 
-#scenario-schedule input{
-  padding:5px;
+#scenario-schedule input {
+  padding: 5px;
 }
 
-.clockpicker-popover.popover, .clockpicker-am-pm-block, .clockpicker-am-pm-block > .btn{
-  z-index:999999;
+.clockpicker-popover.popover,
+.clockpicker-am-pm-block,
+.clockpicker-am-pm-block > .btn {
+  z-index: 999999;
 }
-.required-text{
-  font-size:10px;
-  font-weight:normal;
-  color:red;
+.required-text {
+  font-size: 10px;
+  font-weight: normal;
+  color: red;
 }

@@ -3,6 +3,10 @@
  * @file
  * Enables modules and site configuration for a westminster site installation.
  */
+
+/**
+ * Westminster install tasks.
+ */
 function westminster_install_tasks() {
   $tasks = array();
   $tasks['enable_themes'] = array(
@@ -35,12 +39,20 @@ function westminster_install_tasks() {
   );
   return $tasks;
 }
+
+/**
+ * Function to enable bootstrap theme.
+ */
 function enable_bootstrap() {
-  theme_enable(array('bootstrap','westminster_ui'));
-  variable_set('theme_default','westminster_ui');
-  variable_set('admin_theme','westminster_ui');
-  variable_set('node_admin_theme','westminster_ui');
+  theme_enable(array('bootstrap', 'westminster_ui'));
+  variable_set('theme_default', 'westminster_ui');
+  variable_set('admin_theme', 'westminster_ui');
+  variable_set('node_admin_theme', 'westminster_ui');
 }
+
+/**
+ * Function to enable blocks.
+ */
 function enable_blocks() {
   $blocks = array(
     'management' => array(
@@ -73,31 +85,31 @@ function enable_blocks() {
   );
   foreach ($blocks as $key => $block) {
     db_update('block')
-      ->fields(array (
+      ->fields(array(
                  'status' => 1,
-                 'weight' => $block[ 'weight' ],
-                 'region' => $block[ 'region' ],
-                 'css_class' => $block[ 'css_class' ],
-                 'title' => $block[ 'title' ],
+                 'weight' => $block['weight'],
+                 'region' => $block['region'],
+                 'css_class' => $block['css_class'],
+                 'title' => $block['title'],
                ))
-      ->condition('module', $block[ 'module' ])
-      ->condition('delta', $block[ 'delta' ])
-      ->condition('theme', $block[ 'theme' ])
+      ->condition('module', $block['module'])
+      ->condition('delta', $block['delta'])
+      ->condition('theme', $block['theme'])
       ->execute();
   }
 }
 
 /**
- * Implementation of hook_install().
+ * Implements hook_install().
  */
-function enable_taxonomy_terms(){
-// Displays taxonomy terms
+function enable_taxonomy_terms() {
+  // Displays taxonomy terms.
   $displays = array(
     -32 => 'Lobby',
     -31 => 'Tradeshow',
   );
   _westminster_terms_load_terms($displays, 'displays');
-// Scenarios taxonomy terms
+  // Scenarios taxonomy terms.
   $scenarios = array(
     -32 => 'Interactive Content',
     -31 => 'Slideshow Scenario',
@@ -105,9 +117,10 @@ function enable_taxonomy_terms(){
   );
   _westminster_terms_load_terms($scenarios, 'scenario_type');
 
-// Category taxonomy terms
+  // Category taxonomy terms.
   $categories = array(
-    -32 => 'Eastern Province',   // 0
+    // 0.
+    -32 => 'Eastern Province',
     -31 => 'Upstream',
     -30 => 'Support',
     -29 => 'Aramco History',
@@ -122,15 +135,17 @@ function enable_taxonomy_terms(){
   );
   _westminster_terms_load_terms($categories, 'categories');
   $upstream = array(
-    -31 => 'Exploration',      // Upstream
-    -30 => 'Drilling',         // Upstream
+    // Upstream.
+    -31 => 'Exploration',
+    // Upstream.
+    -30 => 'Drilling',
   );
-  _westminster_terms_load_terms($upstream, 'categories','Upstream');
+  _westminster_terms_load_terms($upstream, 'categories', 'Upstream');
   $downstream = array(
     -31 => 'Refining',
     -30 => 'Distribution',
   );
-  _westminster_terms_load_terms($downstream, 'categories','Downstream');
+  _westminster_terms_load_terms($downstream, 'categories', 'Downstream');
   $lifestyle = array(
     -31 => 'Education',
     -30 => 'Healthcare',
@@ -144,8 +159,8 @@ function enable_taxonomy_terms(){
     -31 => 'Vacation/School Trips',
     -30 => 'Repat Trips',
   );
-  _westminster_terms_load_terms($lifestyle, 'categories','Lifestyle');
-  _westminster_terms_load_terms($lifestyle_travel, 'categories','Travel');
+  _westminster_terms_load_terms($lifestyle, 'categories', 'Lifestyle');
+  _westminster_terms_load_terms($lifestyle_travel, 'categories', 'Travel');
 
   $saudi_arabia = array(
     -31 => 'Regions',
@@ -158,8 +173,8 @@ function enable_taxonomy_terms(){
   $saudi_arabia_regions = array(
     -31 => 'Central Area',
   );
-  _westminster_terms_load_terms($saudi_arabia, 'categories','Saudi Arabia');
-  _westminster_terms_load_terms($saudi_arabia_regions, 'categories','Regions');
+  _westminster_terms_load_terms($saudi_arabia, 'categories', 'Saudi Arabia');
+  _westminster_terms_load_terms($saudi_arabia_regions, 'categories', 'Regions');
   $operations_areas = array(
     -31 => 'Maps',
     -30 => 'International Operations',
@@ -182,6 +197,9 @@ function enable_taxonomy_terms(){
 
 }
 
+/**
+ * Function to add a sample event to the schedule.
+ */
 function add_sample_event() {
   $displays = array(
     'lobby' => 'Lobby',
@@ -197,14 +215,14 @@ function add_sample_event() {
     $node->uid  = 1;
     $node->name = 'admin';
 
-    $node->title                                               = 'Sample Scheduled Event - '.$title;
-    $node->language                                            = LANGUAGE_NONE;
-    $node->body[ $node->language ][ 0 ][ 'value' ]             = '';
-    $node->body[ $node->language ][ 0 ][ 'summary' ]           = '';
-    $node->body[ $node->language ][ 0 ][ 'format' ]            = 'filtered_html';
-    $node->field_date[ $node->language ][ 0 ][ 'value' ]       = date('Y-m-d H:i:s', strtotime('today'));
-    $node->field_date[ $node->language ][ 0 ][ 'value2' ]      = date('Y-m-d H:i:s', strtotime('tomorrow'));
-    $node->field_display_term[ $node->language ][ 0 ][ 'tid' ] = (isset($display_term) && is_object($display_term) && property_exists($display_term, 'tid')) ? $display_term->tid : 1;
+    $node->title                                         = 'Sample Scheduled Event - ' . $title;
+    $node->language                                      = LANGUAGE_NONE;
+    $node->body[$node->language][0]['value']             = '';
+    $node->body[$node->language][0]['summary']           = '';
+    $node->body[$node->language][0]['format']            = 'filtered_html';
+    $node->field_date[$node->language][0]['value']       = date('Y-m-d H:i:s', strtotime('today'));
+    $node->field_date[$node->language][0]['value2']      = date('Y-m-d H:i:s', strtotime('tomorrow'));
+    $node->field_display_term[$node->language][0]['tid'] = (isset($display_term) && is_object($display_term) && property_exists($display_term, 'tid')) ? $display_term->tid : 1;
     $node->status = 1;
     node_save($node);
   }
@@ -213,14 +231,14 @@ function add_sample_event() {
 /**
  * Custom function to load an array of terms into a specified vocabulary.
  */
-function _westminster_terms_load_terms($terms, $vocab_name, $parent = NULL){
+function _westminster_terms_load_terms($terms, $vocab_name, $parent = NULL) {
   $vocab = taxonomy_vocabulary_machine_name_load($vocab_name);
   $parent_tid = 0;
   if (!is_null($parent)) {
     $parent_term = @array_shift(taxonomy_get_term_by_name($parent, $vocab_name));
-    $parent_tid  = (isset($parent_term) && is_object($parent_term) && property_exists($parent_term,'tid')) ? $parent_term->tid : 0 ;
+    $parent_tid  = (isset($parent_term) && is_object($parent_term) && property_exists($parent_term, 'tid')) ? $parent_term->tid : 0;
   }
-  foreach ($terms as $weight=>$term) {
+  foreach ($terms as $weight => $term) {
     $data         = new stdClass();
     $data->name   = $term;
     $data->vid    = $vocab->vid;

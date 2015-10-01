@@ -27,7 +27,6 @@ html .fc,
 }
 
 
-
 /* Header
 ------------------------------------------------------------------------*/
 
@@ -74,8 +73,10 @@ html .fc,
   margin-right: -1px;
 }
 
-.fc-header .fc-corner-right,  /* non-theme */
-.fc-header .ui-corner-right { /* theme */
+/* non-theme */
+/* theme */
+.fc-header .fc-corner-right,
+.fc-header .ui-corner-right {
   margin-right: 0; /* back to normal */
 }
 
@@ -96,7 +97,6 @@ html .fc,
 }
 
 
-
 /* Content
 ------------------------------------------------------------------------*/
 
@@ -111,25 +111,27 @@ html .fc,
 }
 
 
-
 /* Cell Styles
 ------------------------------------------------------------------------*/
 
-.fc-widget-header,    /* <th>, usually */
-.fc-widget-content {  /* <td>, usually */
+/* <th>, usually */
+/* <td>, usually */
+.fc-widget-header,
+.fc-widget-content {
   border: 1px solid #ddd;
 }
 
-.fc-state-highlight { /* <td> today cell */ /* TODO: add .fc-today to <th> */
+/* <td> today cell TODO: add .fc-today to <th> */
+.fc-state-highlight {
   background: #fcf8e3;
 }
 
-.fc-cell-overlay { /* semi-transparent rectangle while dragging */
+/* semi-transparent rectangle while dragging */
+.fc-cell-overlay {
   background: #bce8f1;
   opacity: .3;
   filter: alpha(opacity=30); /* for IE */
 }
-
 
 
 /* Buttons
@@ -146,16 +148,19 @@ html .fc,
   cursor: pointer;
 }
 
-.fc-state-default { /* non-theme */
+/* non-theme */
+.fc-state-default {
   border: 1px solid;
 }
 
-.fc-state-default.fc-corner-left { /* non-theme */
+/* non-theme */
+.fc-state-default.fc-corner-left {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
 
-.fc-state-default.fc-corner-right { /* non-theme */
+/* non-theme */
+.fc-state-default.fc-corner-right {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
@@ -172,8 +177,9 @@ html .fc,
   vertical-align: baseline; /* for IE7 */
 }
 
+/* for &lsaquo; &rsaquo; */
 .fc-button-prev .fc-text-arrow,
-.fc-button-next .fc-text-arrow { /* for &lsaquo; &rsaquo; */
+.fc-button-next .fc-text-arrow {
   font-weight: bold;
 }
 
@@ -248,7 +254,6 @@ html .fc,
 }
 
 
-
 /* Global Event Styles
 ------------------------------------------------------------------------*/
 
@@ -303,7 +308,6 @@ a.fc-event,
 }
 
 
-
 /* Horizontal Events
 ------------------------------------------------------------------------*/
 
@@ -349,7 +353,6 @@ a.fc-event,
 }
 
 
-
 /* Reusable Separate-border Table
 ------------------------------------------------------------*/
 
@@ -378,7 +381,6 @@ table.fc-border-separate {
 }
 
 
-
 /* Month View, Basic Week View, Basic Day View
 ------------------------------------------------------------------------*/
 
@@ -400,12 +402,12 @@ table.fc-border-separate {
   padding: 0 2px;
 }
 
+/* opacity with small font can sometimes look too faded
+   might want to set the 'color' property instead
+   making day-numbers bold also fixes the problem */
 .fc-grid .fc-other-month .fc-day-number {
   opacity: 0.3;
   filter: alpha(opacity=30); /* for IE */
-  /* opacity with small font can sometimes look too faded
-     might want to set the 'color' property instead
-     making day-numbers bold also fixes the problem */
 }
 
 .fc-grid .fc-day-content {
@@ -428,7 +430,6 @@ table.fc-border-separate {
 .fc-rtl .fc-grid .fc-event-time {
   float: right;
 }
-
 
 
 /* Agenda Week View, Agenda Day View
@@ -476,7 +477,7 @@ table.fc-border-separate {
 }
 
 .fc-agenda-allday .fc-day-content {
-  min-height: 34px; /* TODO: doesnt work well in quirksmode */
+  min-height: 34px; /* TODO: doesn't work well in quirksmode */
   _height: 34px;
 }
 
@@ -521,7 +522,6 @@ table.fc-border-separate {
 }
 
 
-
 /* Vertical Events
 ------------------------------------------------------------------------*/
 
@@ -551,7 +551,8 @@ table.fc-border-separate {
   z-index: 2;
 }
 
-.fc-event-vert .fc-event-bg { /* makes the event lighter w/ a semi-transparent overlay  */
+.fc-event-vert .fc-event-bg {
+  /* makes the event lighter w/ a semi-transparent overlay  */
   position: absolute;
   z-index: 1;
   top: 0;
@@ -582,8 +583,7 @@ table.fc-border-separate {
   cursor: s-resize;
 }
 
-.fc-agenda .ui-resizable-resizing { /* TODO: better selector */
+.fc-agenda .ui-resizable-resizing {
+  /* TODO: better selector */
   _overflow: hidden;
 }
-
-
