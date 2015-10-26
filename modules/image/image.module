@@ -64,7 +64,7 @@ function image_help($path, $arg) {
       $effect = image_effect_definition_load($arg[7]);
       return isset($effect['help']) ? ('<p>' . $effect['help'] . '</p>') : NULL;
     case 'admin/config/media/image-styles/edit/%/effects/%':
-      $effect = ($arg[5] == 'add') ? image_effect_definition_load($arg[6]) : image_effect_load($arg[6], $arg[4]);
+      $effect = ($arg[5] == 'add') ? image_effect_definition_load($arg[6]) : image_effect_load($arg[7], $arg[5]);
       return isset($effect['help']) ? ('<p>' . $effect['help'] . '</p>') : NULL;
   }
 }
@@ -546,11 +546,6 @@ function image_field_update_instance($instance, $prior_instance) {
  *   The Drupal file path to the original image.
  */
 function image_path_flush($path) {
-  // Pantheon optimization: one bulk operation is better.
-  if (function_exists('pantheon_api_image_path_flush') && function_exists('pantheon_bulk_file_delete')) {
-    pantheon_api_image_path_flush($path);
-    return;
-  }
   $styles = image_styles();
   foreach ($styles as $style) {
     $image_path = image_style_path($style['name'], $path);
@@ -806,6 +801,8 @@ function image_style_options($include_empty = TRUE, $output = CHECK_PLAIN) {
  *
  * @param $style
  *   The image style
+ * @param $scheme
+ *   The file scheme, for example 'public' for public files.
  */
 function image_style_deliver($style, $scheme) {
   $args = func_get_args();

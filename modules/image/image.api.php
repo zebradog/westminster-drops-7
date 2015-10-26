@@ -51,32 +51,6 @@ function hook_image_effect_info() {
 }
 
 /**
- * Alters the derivative uri.
- *
- * This hook allows modules to alter the uri of the derivative. By implementing
- * this hook, a module can decide, for example, that a specific image style will
- * be available on a different schema. This hook is called when the image module
- * builds the uri of an image derivative.
- *
- * @param string $uri
- *   The image style uri to be altered.
- * @param array $context
- *   A context associative array with next keys and values:
- *   - scheme: The image scheme.
- *   - path: The image path. If this image style changes the extension of the
- *     derivative, the value of 'path' item reflects this.
- *   - image_style: The \Drupal\image\ImageStyleInterface image style object.
- */
-function hook_image_style_uri_alter(&$uri, array $context) {
-  if (($name = $context['image_style']->id()) == 'watermarked_low_resolution') {
-    $path = $context['path'];
-    // Low resolution, watermarked images are available publicly, in the
-    // public:// stream wrapper.
-    $uri = "public://styles/$name/public/$path";
-  }
-}
-
-/**
  * Alter the information provided in hook_image_effect_info().
  *
  * @param $effects
